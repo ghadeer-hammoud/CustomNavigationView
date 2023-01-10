@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/start">
+
+        <Constraint
+            android:id="@id/navLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <Transform
+                android:translationX="0dp"
+                />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+
+        <Constraint
+            android:id="@id/navLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            >
+            <Transform
+                android:translationX="-100dp"
+                />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <Transition
+        android:id="@+id/transition1"
+        app:duration="200"
+        app:constraintSetStart="@+id/start"
+        app:constraintSetEnd="@+id/end">
+<!--        <OnSwipe-->
+<!--            app:dragDirection="dragEnd"-->
+<!--            app:touchAnchorId="@+id/ivToggle"-->
+<!--            app:touchAnchorSide="middle" />-->
+    </Transition>
+
+</MotionScene>

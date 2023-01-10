@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/motion_layout_scene"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/navLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:outlineProvider="bounds"
+        android:elevation="1.5dp"
+        android:padding="8dp">
+
+
+        <ImageView
+            android:id="@+id/ivToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_24"
+            android:background="@drawable/background_circle"
+            android:backgroundTint="@color/orange"
+            app:tint="@color/white"
+            android:padding="6dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/item_menu_standard"
+            app:layout_constraintTop_toBottomOf="@+id/ivToggle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
