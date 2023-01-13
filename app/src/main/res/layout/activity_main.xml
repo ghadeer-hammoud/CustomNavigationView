@@ -5,13 +5,46 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <!-- android:entries="@menu/menu" -->
-    <com.example.customnavigationview.CustomNavigationView
-        android:id="@+id/customNavView"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:menuStyle="standard"
+        android:background="#88ffcc55"
+        >
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="MAIN CONTENT"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:background="@color/grey_medium"
+            />
+
+        <Button
+            android:id="@+id/toggleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Toggle"
+            android:textSize="14sp"
+            />
+
+    </RelativeLayout>
+
+    <com.ghadeerh.customnavigationview.CustomNavigationView
+        android:id="@+id/customNavView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:menu="@menu/menu"
+        app:header="@layout/layout_header"
+        app:expanded="false"
+        app:collapseMenuStyle="iconified"
+        app:expandMenuStyle="grid"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

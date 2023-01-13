@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomNavView">
+        <attr name="menu" format="reference"/>
+        <attr name="header" format="reference"/>
+        <attr name="collapseMenuStyle" format="enum">
+            <enum name="hidden" value="0"/>
+            <enum name="iconified" value="1"/>
+            <enum name="iconified_no_title" value="2"/>
+        </attr>
+        <attr name="expandMenuStyle" format="enum">
+            <enum name="standard" value="3"/>
+            <enum name="grid"    value="4"/>
+        </attr>
+        <attr name="expanded" format="boolean"/>
+    </declare-styleable>
+</resources>
