@@ -5,14 +5,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
+import android.graphics.Color
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.util.Log
+import android.view.*
 import android.view.View.inflate
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -35,6 +35,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private val typedArray  = context.theme.obtainStyledAttributes(attrs, R.styleable.CustomNavView, 0, 0)
+    private var mainLayoutRes = typedArray.getResourceId(R.styleable.CustomNavView_mainLayout, -1)
     private var menuRes = typedArray.getResourceId(R.styleable.CustomNavView_menu, -1)
     private var headerRes = typedArray.getResourceId(R.styleable.CustomNavView_header, -1)
     private var collapseMenuStyle = typedArray.getInt(R.styleable.CustomNavView_collapseMenuStyle, NavigationMenuStyle.Collapsed.STYLE_HIDDEN)
@@ -60,6 +61,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     private lateinit var motionLayout: MotionLayout
     private lateinit var navLayout: ConstraintLayout
     private lateinit var headerContainer: FrameLayout
+    private lateinit var mainLayout: ViewGroup
     private lateinit var ivToggle: ImageView
     private lateinit var itemsRecyclerView: RecyclerView
     private lateinit var itemsAdapter: MenuItemsAdapter
@@ -122,6 +124,18 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         typedArray.recycle()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        if(mainLayoutRes != -1){
+            val parent = parent as ViewGroup
+            mainLayout = parent.findViewById(mainLayoutRes)
+            mainLayout.setOnClickListener {
+                if(isExpanded) handleToggleMenu()
+            }
+        }
+    }
+
     private fun initConfigurations(){
         MenuConfigurations.menuBackgroundColor = ContextCompat.getColor(context, R.color.white)
         MenuConfigurations.iconTintColor = ContextCompat.getColor(context, R.color.grey_dark)
@@ -182,25 +196,12 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
                 if(isExpanded) {
                     publishUI(expandMenuStyle)
                     showMenu()
-                    if(MenuConfigurations.collapseOnClickOutside){
-                        root.setOnClickListener {
-                            hideMenu()
-                            isExpanded = false
-                            root.isClickable = false
-                        }
-                    }
                 } else {
                     hideMenu()
                 }
             }
             else -> {
                 toggleMenuStyleTo(if(isExpanded) expandMenuStyle else collapseMenuStyle)
-                if(isExpanded && MenuConfigurations.collapseOnClickOutside){
-                    root.setOnClickListener {
-                        handleToggleMenu()
-                        root.isClickable = false
-                    }
-                }
             }
         }
     }
@@ -226,11 +227,34 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         val widthToTranslateOut = MenuConfigurations.maxExpandWidth
         motionLayout.getConstraintSet(R.id.end).setTranslationX(navLayout.id, -widthToTranslateOut.toFloat())
         motionLayout.transitionToEnd()
+
+        if(::mainLayout.isInitialized)
+            mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                startToEnd = ConstraintLayout.LayoutParams.UNSET
+            }
     }
 
     private fun showMenu(){
         ivToggle.setImageDrawable(ContextCompat.getDrawable(context, getAppropriateToggleIcon()))
         motionLayout.transitionToStart()
+
+        mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            startToEnd = if(isExpanded) ConstraintLayout.LayoutParams.UNSET else root.id
+        }
+//        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener{
+//            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+//            }
+//            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+//                mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+//                    startToEnd = if(isExpanded) ConstraintLayout.LayoutParams.UNSET else root.id
+//                }
+//            }
+//            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+//            }
+//            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+//            }
+//
+//        })
     }
 
     private fun getAppropriateToggleIcon(): Int =

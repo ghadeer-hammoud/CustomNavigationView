@@ -3,12 +3,16 @@ package com.example
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.customnavigationrailview.R
 import com.ghadeerh.customnavigationview.CustomNavigationView
@@ -23,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         customNavigationView = findViewById(R.id.customNavView)
+        val mainLayout = findViewById<ViewGroup>(R.id.root)
+        Log.d("MainActivity", "onCreate: ${mainLayout.id}")
 
         customNavigationView.setOnItemClickListener (object : OnMenuItemClickListener {
             override fun onItemClicked(itemId: Int) {

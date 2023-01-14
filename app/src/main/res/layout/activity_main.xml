@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:id="@+id/mainLayout"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="#88ffcc55"
+        app:layout_constraintStart_toEndOf="@+id/customNavView"
+        app:layout_constraintEnd_toEndOf="parent"
         >
 
         <TextView
@@ -38,8 +42,9 @@
 
     <com.ghadeerh.customnavigationview.CustomNavigationView
         android:id="@+id/customNavView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:mainLayout="@id/mainLayout"
         app:menu="@menu/menu"
         app:header="@layout/layout_header"
         app:expanded="false"

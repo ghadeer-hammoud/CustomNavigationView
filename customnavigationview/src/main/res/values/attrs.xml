@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomNavView">
+        <attr name="mainLayout" format="reference" required="true"/>
         <attr name="menu" format="reference"/>
         <attr name="header" format="reference"/>
         <attr name="collapseMenuStyle" format="enum">
