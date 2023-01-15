@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable
 
 object MenuConfigurations {
 
+    var itemSelected: Int? = null
+
     var menuBackgroundColor: Int = 0
 
     var iconTintColor: Int = 0

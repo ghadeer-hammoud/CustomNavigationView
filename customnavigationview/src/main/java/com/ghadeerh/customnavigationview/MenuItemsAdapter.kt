@@ -62,16 +62,17 @@ class MenuItemsAdapter(private val itemsList: MutableList<MenuItem>,
 
             when(menuItem.isChecked){
                 true -> {
+                    MenuConfigurations.itemSelected = menuItem.itemId
                     ivIcon.setColorFilter(MenuConfigurations.selectedIconTintColor)
                     when(menuStyle){
                         NavigationMenuStyle.Collapsed.STYLE_ICONIFIED,
                         NavigationMenuStyle.Collapsed.STYLE_ICONIFIED_NO_TITLE ->{
                             ivIcon.backgroundTintList = ColorStateList.valueOf(MenuConfigurations.selectedIconBackgroundTintColor)
-                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.selectedIconBackgroundTintColor))
+                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.selectedTextColor))
                         }
                         else ->{
                             itemView.rootView.backgroundTintList = ColorStateList.valueOf(MenuConfigurations.selectedIconBackgroundTintColor)
-                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.selectedIconTintColor))
+                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.selectedTextColor))
                         }
 
                     }
@@ -82,11 +83,11 @@ class MenuItemsAdapter(private val itemsList: MutableList<MenuItem>,
                         NavigationMenuStyle.Collapsed.STYLE_ICONIFIED,
                         NavigationMenuStyle.Collapsed.STYLE_ICONIFIED_NO_TITLE ->{
                             ivIcon.backgroundTintList = ColorStateList.valueOf(MenuConfigurations.iconBackgroundTintColor)
-                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.iconBackgroundTintColor))
+                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.textColor))
                         }
                         else ->{
                             itemView.rootView.backgroundTintList = ColorStateList.valueOf(MenuConfigurations.iconBackgroundTintColor)
-                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.iconTintColor))
+                            tvTitle.setTextColor(ColorStateList.valueOf(MenuConfigurations.textColor))
                         }
                     }
 
@@ -101,10 +102,16 @@ class MenuItemsAdapter(private val itemsList: MutableList<MenuItem>,
                 drawable.cornerRadius = MenuConfigurations.gridBoxRadius
             }
             itemView.setOnClickListener {
-                itemsList.map { it.isChecked = false }
+                //itemsList.map { it.isChecked = false }
+                MenuConfigurations.itemSelected?.let { itemSelectedId ->
+                    val itemSelected = itemsList.find { it.itemId == itemSelectedId }
+                    itemSelected?.isChecked = false
+                    notifyItemChanged(itemsList.indexOf(itemSelected))
+                }
                 menuItem.isChecked = true
+                MenuConfigurations.itemSelected = menuItem.itemId
+                notifyItemChanged(itemsList.indexOf(menuItem))
                 MenuConfigurations.onMenuItemClickListener?.onItemClicked(menuItem.itemId)
-                notifyDataSetChanged()
             }
         }
     }

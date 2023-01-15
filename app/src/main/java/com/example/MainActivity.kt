@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        //customNavigationView.setMenuBackgroundColor(ContextCompat.getColor(this, R.color.blue_dark))
         val header = layoutInflater.inflate(R.layout.layout_header, null, false)
         customNavigationView.setHeader(header)
         customNavigationView.setExternalToggleView(findViewById<Button>(R.id.toggleView))
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         customNavigationView.setSelectedIconTintColor(ContextCompat.getColor(this, R.color.white))
         customNavigationView.setSelectedIconBackgroundTintColor(ContextCompat.getColor(this, R.color.orange))
 
-        //customNavigationView.setIconTintColor(ContextCompat.getColor(this, R.color.black))
+        customNavigationView.setIconTintColor(ContextCompat.getColor(this, R.color.black))
         customNavigationView.setIconBackgroundTintColor(ContextCompat.getColor(this, R.color.grey_medium))
         customNavigationView.setToggleButtonTintColor(ContextCompat.getColor(this, R.color.white))
         customNavigationView.setToggleButtonBackgroundTintColor(ContextCompat.getColor(this, R.color.blue_dark))

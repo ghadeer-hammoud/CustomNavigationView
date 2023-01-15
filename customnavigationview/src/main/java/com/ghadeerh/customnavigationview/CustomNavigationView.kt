@@ -38,6 +38,19 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     private var expandMenuStyle = typedArray.getInt(R.styleable.CustomNavView_expandMenuStyle, NavigationMenuStyle.Expanded.STYLE_STANDARD)
     private var isExpanded = typedArray.getBoolean(R.styleable.CustomNavView_expanded, false)
 
+    private var menuBackgroundColor = typedArray.getColor(R.styleable.CustomNavView_menuBackgroundColor, Integer.MAX_VALUE)
+    private var iconTintColor = typedArray.getColor(R.styleable.CustomNavView_iconTintColor, Integer.MAX_VALUE)
+    private var iconBackgroundTintColor = typedArray.getColor(R.styleable.CustomNavView_iconBackgroundTintColor, Integer.MAX_VALUE)
+    private var textColor = typedArray.getColor(R.styleable.CustomNavView_textColor, Integer.MAX_VALUE)
+    private var selectedIconTintColor = typedArray.getColor(R.styleable.CustomNavView_selectedIconTintColor, Integer.MAX_VALUE)
+    private var selectedIconBackgroundTintColor = typedArray.getColor(R.styleable.CustomNavView_selectedIconBackgroundTintColor, Integer.MAX_VALUE)
+    private var selectedTextColor = typedArray.getColor(R.styleable.CustomNavView_selectedTextColor, Integer.MAX_VALUE)
+    private var toggleButtonTintColor = typedArray.getColor(R.styleable.CustomNavView_toggleButtonTintColor, Integer.MAX_VALUE)
+    private var toggleButtonBackgroundTintColor = typedArray.getColor(R.styleable.CustomNavView_toggleButtonBackgroundTintColor, Integer.MAX_VALUE)
+    private var gridSpanCount = typedArray.getInt(R.styleable.CustomNavView_gridSpanCount, -1)
+    private var gridBoxRadius = typedArray.getFloat(R.styleable.CustomNavView_gridBoxRadius, -1.0f)
+    private var collapseOnClickOutside = typedArray.getBoolean(R.styleable.CustomNavView_collapseOnClickOutside, true)
+
     private val screenWidth: Int
 
     val demoItems = listOf(
@@ -129,37 +142,58 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
             mainLayout.layoutTransition = LayoutTransition()
             mainLayout.layoutTransition.setDuration(500)
             mainLayout.setOnClickListener {
-                if(isExpanded) handleToggleMenu()
+                if(isExpanded && MenuConfigurations.collapseOnClickOutside)
+                    handleToggleMenu()
             }
         }
     }
 
     private fun initConfigurations(){
-        MenuConfigurations.menuBackgroundColor = ContextCompat.getColor(context, R.color.white)
-        MenuConfigurations.iconTintColor = ContextCompat.getColor(context, R.color.grey_dark)
-        MenuConfigurations.iconBackgroundTintColor = ContextCompat.getColor(context, R.color.grey_medium)
-        MenuConfigurations.selectedIconTintColor = ContextCompat.getColor(context, R.color.white)
-        MenuConfigurations.selectedIconBackgroundTintColor = ContextCompat.getColor(context, R.color.orange)
-        MenuConfigurations.toggleButtonTintColor = ContextCompat.getColor(context, R.color.white)
-        MenuConfigurations.toggleButtonBackgroundTintColor = ContextCompat.getColor(context, R.color.orange)
-        MenuConfigurations.gridSpanCount = 2
-        MenuConfigurations.gridBoxRadius = 6.0f
+        MenuConfigurations.menuBackgroundColor = if(menuBackgroundColor != Integer.MAX_VALUE) menuBackgroundColor else ContextCompat.getColor(context, R.color.white)
+        MenuConfigurations.iconTintColor = if(iconTintColor != Integer.MAX_VALUE) iconTintColor else ContextCompat.getColor(context, R.color.grey_dark)
+        MenuConfigurations.iconBackgroundTintColor = if(iconBackgroundTintColor != Integer.MAX_VALUE) iconBackgroundTintColor else ContextCompat.getColor(context, R.color.grey_medium)
+        MenuConfigurations.textColor = if(textColor != Integer.MAX_VALUE) textColor else if (isExpanded) MenuConfigurations.iconTintColor else MenuConfigurations.iconBackgroundTintColor
+        MenuConfigurations.selectedIconTintColor = if(selectedIconTintColor != Integer.MAX_VALUE) selectedIconTintColor else ContextCompat.getColor(context, R.color.white)
+        MenuConfigurations.selectedIconBackgroundTintColor = if(selectedIconBackgroundTintColor != Integer.MAX_VALUE) selectedIconBackgroundTintColor else ContextCompat.getColor(context, R.color.orange)
+        MenuConfigurations.selectedTextColor = if(selectedTextColor != Integer.MAX_VALUE) selectedTextColor else if (isExpanded) MenuConfigurations.selectedIconTintColor else MenuConfigurations.selectedIconBackgroundTintColor
+        MenuConfigurations.toggleButtonTintColor = if(toggleButtonTintColor != Integer.MAX_VALUE) toggleButtonTintColor else ContextCompat.getColor(context, R.color.white)
+        MenuConfigurations.toggleButtonBackgroundTintColor = if(toggleButtonBackgroundTintColor != Integer.MAX_VALUE) toggleButtonBackgroundTintColor else ContextCompat.getColor(context, R.color.orange)
+        MenuConfigurations.gridSpanCount = if(gridSpanCount > 0) gridSpanCount else 2
+        MenuConfigurations.gridBoxRadius = if(gridBoxRadius >= 0.0f) gridBoxRadius else 0.0f
+        MenuConfigurations.collapseOnClickOutside = collapseOnClickOutside
 
         val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         MenuConfigurations.maxExpandWidth = if(isLandscape) screenWidth/3 else screenWidth/2
         MenuConfigurations.minExpandWidth = if(isLandscape) screenWidth/3 else screenWidth/2
 
-        MenuConfigurations.collapseOnClickOutside = true
+
+        setMenuBackgroundColor(MenuConfigurations.menuBackgroundColor)
+        setIconTintColor(MenuConfigurations.iconTintColor)
+        setIconBackgroundTintColor(MenuConfigurations.iconBackgroundTintColor)
+        setTextColor(MenuConfigurations.textColor)
+        setSelectedIconTintColor(MenuConfigurations.selectedIconTintColor)
+        setSelectedIconBackgroundTintColor(MenuConfigurations.selectedIconBackgroundTintColor)
+        setSelectedTextColor(MenuConfigurations.selectedTextColor)
+        setToggleButtonTintColor(MenuConfigurations.toggleButtonTintColor)
+        setToggleButtonBackgroundTintColor(MenuConfigurations.toggleButtonBackgroundTintColor)
+        setGridSpanCount(MenuConfigurations.gridSpanCount)
+        setGridBoxRadius(MenuConfigurations.gridBoxRadius)
+        setCollapseWhenClickOutside(MenuConfigurations.collapseOnClickOutside)
     }
 
     private fun getMenuItems(): MutableList<MenuItem>{
-        return if(menu != null)
+        return if(menu != null){
             menu!!.children.toMutableList()
+        }
         else
             mutableListOf()
     }
 
     private fun publishUI(menuStyle: Int){
+
+        MenuConfigurations.textColor = if(textColor != Integer.MAX_VALUE) textColor else if (isExpanded) MenuConfigurations.iconTintColor else MenuConfigurations.iconBackgroundTintColor
+        MenuConfigurations.selectedTextColor = if(selectedTextColor != Integer.MAX_VALUE) selectedTextColor else if (isExpanded) MenuConfigurations.selectedIconTintColor else MenuConfigurations.selectedIconBackgroundTintColor
+
         itemsAdapter = MenuItemsAdapter(itemsList = getMenuItems(), menuStyle = menuStyle)
         itemsRecyclerView.apply {
             layoutManager = when(menuStyle){
@@ -357,13 +391,13 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         MenuConfigurations.selectedIconBackgroundTintColor = color
     }
 
-//    public fun setTextColor(color: Int){
-//        Configuration.textColor = color
-//    }
-//
-//    public fun setSelectedTextColor(color: Int){
-//        Configuration.selectedTextColor = color
-//    }
+    public fun setTextColor(color: Int){
+        MenuConfigurations.textColor = color
+    }
+
+    public fun setSelectedTextColor(color: Int){
+        MenuConfigurations.selectedTextColor = color
+    }
 
 //    private fun setToggleButtonIcon(@SuppressLint("SupportAnnotationUsage") @DrawableRes drawable: Drawable){
 //        Configuration.toggleButtonIcon = drawable

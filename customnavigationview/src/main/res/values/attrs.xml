@@ -14,5 +14,20 @@
             <enum name="grid"    value="4"/>
         </attr>
         <attr name="expanded" format="boolean"/>
+        <attr name="menuBackgroundColor" format="color"/>
+
+        <attr name="iconTintColor" format="color"/>
+        <attr name="iconBackgroundTintColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="selectedIconTintColor" format="color"/>
+        <attr name="selectedIconBackgroundTintColor" format="color"/>
+        <attr name="selectedTextColor" format="color"/>
+        <attr name="toggleButtonTintColor" format="color"/>
+        <attr name="toggleButtonBackgroundTintColor" format="color"/>
+        <attr name="gridSpanCount" format="integer">
+
+        </attr>
+        <attr name="gridBoxRadius" format="float"/>
+        <attr name="collapseOnClickOutside" format="boolean"/>
     </declare-styleable>
 </resources>
