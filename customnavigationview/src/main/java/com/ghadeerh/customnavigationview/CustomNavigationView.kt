@@ -1,19 +1,15 @@
 package com.ghadeerh.customnavigationview
 
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
-import android.view.View.inflate
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.RelativeLayout
-import androidx.annotation.LayoutRes
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -130,6 +126,8 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         if(mainLayoutRes != -1){
             val parent = parent as ViewGroup
             mainLayout = parent.findViewById(mainLayoutRes)
+            mainLayout.layoutTransition = LayoutTransition()
+            mainLayout.layoutTransition.setDuration(500)
             mainLayout.setOnClickListener {
                 if(isExpanded) handleToggleMenu()
             }
@@ -154,9 +152,9 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         MenuConfigurations.collapseOnClickOutside = true
     }
 
-    private fun getMenuItems(): MutableList<CustomMenuItem>{
+    private fun getMenuItems(): MutableList<MenuItem>{
         return if(menu != null)
-            menu!!.children.map { CustomMenuItem(it.itemId, it.title.toString(), it.icon, it.isChecked) }.toMutableList()
+            menu!!.children.toMutableList()
         else
             mutableListOf()
     }
@@ -206,7 +204,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun toggleMenuStyleTo(menuStyle: Int){
-        Log.d(TAG, "publishUI: width2 ${navLayout.width}")
+
         hideMenu()
 
         GlobalScope.launch (Dispatchers.IO){
@@ -218,7 +216,6 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
                     delay(50)
                 }
                 showMenu()
-                Log.d(TAG, "publishUI: width2 ${navLayout.width}")
             }
         }
     }
@@ -228,33 +225,25 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         motionLayout.getConstraintSet(R.id.end).setTranslationX(navLayout.id, -widthToTranslateOut.toFloat())
         motionLayout.transitionToEnd()
 
-        if(::mainLayout.isInitialized)
+        if(::mainLayout.isInitialized){
+            mainLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 startToEnd = ConstraintLayout.LayoutParams.UNSET
             }
+        }
+
     }
 
     private fun showMenu(){
         ivToggle.setImageDrawable(ContextCompat.getDrawable(context, getAppropriateToggleIcon()))
         motionLayout.transitionToStart()
 
-        mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            startToEnd = if(isExpanded) ConstraintLayout.LayoutParams.UNSET else root.id
+        if(::mainLayout.isInitialized){
+            mainLayout.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                startToEnd = if(isExpanded) ConstraintLayout.LayoutParams.UNSET else root.id
+            }
         }
-//        motionLayout.setTransitionListener(object : MotionLayout.TransitionListener{
-//            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-//            }
-//            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-//                mainLayout.updateLayoutParams<ConstraintLayout.LayoutParams> {
-//                    startToEnd = if(isExpanded) ConstraintLayout.LayoutParams.UNSET else root.id
-//                }
-//            }
-//            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-//            }
-//            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-//            }
-//
-//        })
     }
 
     private fun getAppropriateToggleIcon(): Int =
@@ -308,6 +297,9 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         this.menu = menu
         itemsAdapter.updateItems(getMenuItems())
     }
+
+    public fun getMenu(): Menu? = this.menu
+
 
     public fun setExternalToggleView(view: View?){
         this.externalToggleView = view

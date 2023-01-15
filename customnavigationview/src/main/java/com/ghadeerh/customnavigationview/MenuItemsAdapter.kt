@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 
-class MenuItemsAdapter(private val itemsList: MutableList<CustomMenuItem>,
+class MenuItemsAdapter(private val itemsList: MutableList<MenuItem>,
                        private var menuStyle: Int)
     : RecyclerView.Adapter<MenuItemsAdapter.ViewHolder>() {
 
@@ -40,7 +41,7 @@ class MenuItemsAdapter(private val itemsList: MutableList<CustomMenuItem>,
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateItems(newItemsList: List<CustomMenuItem>){
+    fun updateItems(newItemsList: List<MenuItem>){
         itemsList.clear()
         itemsList.addAll(newItemsList)
         notifyDataSetChanged()
@@ -51,7 +52,7 @@ class MenuItemsAdapter(private val itemsList: MutableList<CustomMenuItem>,
         private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         private val ivIcon: ImageView = itemView.findViewById(R.id.ivIcon)
 
-        fun bind(menuItem: CustomMenuItem){
+        fun bind(menuItem: MenuItem){
             tvTitle.text = menuItem.title
             tvTitle.isSelected = true
             if(menuStyle == NavigationMenuStyle.Collapsed.STYLE_ICONIFIED_NO_TITLE)
@@ -59,7 +60,7 @@ class MenuItemsAdapter(private val itemsList: MutableList<CustomMenuItem>,
             ivIcon.setImageDrawable(menuItem.icon)
 
 
-            when(menuItem.isSelected){
+            when(menuItem.isChecked){
                 true -> {
                     ivIcon.setColorFilter(MenuConfigurations.selectedIconTintColor)
                     when(menuStyle){
@@ -99,7 +100,12 @@ class MenuItemsAdapter(private val itemsList: MutableList<CustomMenuItem>,
                 val drawable: GradientDrawable = itemView.background as GradientDrawable
                 drawable.cornerRadius = MenuConfigurations.gridBoxRadius
             }
-            itemView.setOnClickListener { MenuConfigurations.onMenuItemClickListener?.onItemClicked(menuItem.id) }
+            itemView.setOnClickListener {
+                itemsList.map { it.isChecked = false }
+                menuItem.isChecked = true
+                MenuConfigurations.onMenuItemClickListener?.onItemClicked(menuItem.itemId)
+                notifyDataSetChanged()
+            }
         }
     }
 }

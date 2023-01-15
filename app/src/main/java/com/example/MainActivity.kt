@@ -27,12 +27,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         customNavigationView = findViewById(R.id.customNavView)
-        val mainLayout = findViewById<ViewGroup>(R.id.root)
-        Log.d("MainActivity", "onCreate: ${mainLayout.id}")
 
         customNavigationView.setOnItemClickListener (object : OnMenuItemClickListener {
             override fun onItemClicked(itemId: Int) {
                 Toast.makeText(this@MainActivity, itemId.toString(), Toast.LENGTH_SHORT).show()
+                if(customNavigationView.isExpanded())
+                    customNavigationView.toggleMenu()
             }
         })
 
