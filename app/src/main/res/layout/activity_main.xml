@@ -46,7 +46,6 @@
         android:layout_height="match_parent"
         app:mainLayout="@id/mainLayout"
         app:menu="@menu/menu"
-        app:header="@layout/layout_header"
         app:expanded="false"
         app:collapseMenuStyle="iconified"
         app:expandMenuStyle="grid"

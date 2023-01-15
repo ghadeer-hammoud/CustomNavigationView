@@ -162,7 +162,6 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun publishUI(menuStyle: Int){
-
         itemsAdapter = MenuItemsAdapter(itemsList = getMenuItems(), menuStyle = menuStyle)
         itemsRecyclerView.apply {
             layoutManager = when(menuStyle){
@@ -207,18 +206,19 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun toggleMenuStyleTo(menuStyle: Int){
-
+        Log.d(TAG, "publishUI: width2 ${navLayout.width}")
         hideMenu()
 
         GlobalScope.launch (Dispatchers.IO){
             delay(motionLayout.getTransition(R.id.transition1).duration.toLong())
             withContext(Dispatchers.Main){
-
                 publishUI(menuStyle)
+
                 withContext(Dispatchers.IO){
                     delay(50)
                 }
-               showMenu()
+                showMenu()
+                Log.d(TAG, "publishUI: width2 ${navLayout.width}")
             }
         }
     }
@@ -390,7 +390,6 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
     public fun isExpanded() = isExpanded
 
     public fun toggleMenu(){
-        if(isExpanded) root.performClick()
-        else handleToggleMenu()
+        handleToggleMenu()
     }
 }
