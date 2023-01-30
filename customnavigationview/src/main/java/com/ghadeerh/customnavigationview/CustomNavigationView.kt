@@ -98,6 +98,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         ivToggle.setOnClickListener{ handleToggleMenu() }
         ivToggle.setImageDrawable(ContextCompat.getDrawable(context, getAppropriateToggleIcon()))
 
+
         // Inflate header layout
         if(headerRes != -1){
             headerView = LayoutInflater.from(context).inflate(headerRes, null, false)
@@ -118,6 +119,10 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
 
         initConfigurations()
 
+        typedArray.recycle()
+    }
+
+    private fun initialState(){
         if(collapseMenuStyle != NavigationMenuStyle.Collapsed.STYLE_HIDDEN){
             val initialMenuStyle = when(isExpanded){
                 true -> expandMenuStyle
@@ -129,8 +134,6 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
         else{
             hideMenu()
         }
-
-        typedArray.recycle()
     }
 
     override fun onAttachedToWindow() {
@@ -146,6 +149,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
                     handleToggleMenu()
             }
         }
+        initialState()
     }
 
     private fun initConfigurations(){
