@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="circle_icon_width">36dp</dimen>
+    <dimen name="standard_icon_width">40dp</dimen>
+    <dimen name="large_icon_width">48dp</dimen>
+    <dimen name="text_size_small">9sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomNavView">
+        <attr name="mainLayout" format="reference" required="true"/>
+        <attr name="menu" format="reference"/>
+        <attr name="header" format="reference"/>
+        <attr name="collapseMenuStyle" format="enum">
+            <enum name="hidden" value="0"/>
+            <enum name="iconified" value="1"/>
+            <enum name="iconified_no_title" value="2"/>
+        </attr>
+        <attr name="expandMenuStyle" format="enum">
+            <enum name="standard" value="3"/>
+            <enum name="grid"    value="4"/>
+        </attr>
+        <attr name="expanded" format="boolean"/>
+        <attr name="menuBackgroundColor" format="color"/>
+
+        <attr name="iconTintColor" format="color"/>
+        <attr name="iconBackgroundTintColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="selectedIconTintColor" format="color"/>
+        <attr name="selectedIconBackgroundTintColor" format="color"/>
+        <attr name="selectedTextColor" format="color"/>
+        <attr name="toggleButtonTintColor" format="color"/>
+        <attr name="toggleButtonBackgroundTintColor" format="color"/>
+        <attr name="gridSpanCount" format="integer">
+
+        </attr>
+        <attr name="gridBoxRadius" format="float"/>
+        <attr name="collapseOnClickOutside" format="boolean"/>
+    </declare-styleable>
+</resources>

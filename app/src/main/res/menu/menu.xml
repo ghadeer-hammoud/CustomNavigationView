@@ -2,38 +2,69 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_item1"
-        android:title="Item 1"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_payments"
+        android:title="Payments"
+        android:icon="@drawable/ic_payments"
+        android:checked="true"
         />
 
     <item
-        android:id="@+id/action_item2"
-        android:title="Item 2"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_inventory"
+        android:title="Inventory"
+        android:icon="@drawable/ic_inventory"
         />
 
     <item
-        android:id="@+id/action_item3"
-        android:title="Item 3"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_sales"
+        android:title="Sales"
+        android:icon="@drawable/ic_sales"
         />
 
     <item
-        android:id="@+id/action_item4"
-        android:title="Item 4"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_reports"
+        android:title="Reports"
+        android:icon="@drawable/ic_reports"
         />
 
     <item
-        android:id="@+id/action_item5"
-        android:title="Item 5"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_suppliers"
+        android:title="Suppliers"
+        android:icon="@drawable/ic_suppliers"
         />
 
     <item
-        android:id="@+id/action_item6"
-        android:title="Item 6"
-        android:icon="@drawable/ic_home_24"
+        android:id="@+id/action_products"
+        android:title="Products"
+        android:icon="@drawable/ic_products"
+        />
+
+    <item
+        android:id="@+id/action_customers"
+        android:title="Customers"
+        android:icon="@drawable/ic_customers"
+        />
+
+    <item
+        android:id="@+id/action_branch_management"
+        android:title="Shop Branch Management"
+        android:icon="@drawable/ic_branch_management"
+        />
+
+    <item
+        android:id="@+id/action_transaction"
+        android:title="Transaction"
+        android:icon="@drawable/ic_transaction"
+        />
+
+    <item
+        android:id="@+id/action_history"
+        android:title="History"
+        android:icon="@drawable/ic_history"
+        />
+
+    <item
+        android:id="@+id/action_main_setup"
+        android:title="Main Setup"
+        android:icon="@drawable/ic_main_setup"
         />
 </menu>
