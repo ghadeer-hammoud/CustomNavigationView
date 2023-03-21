@@ -187,7 +187,7 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun getMenuItems(): MutableList<MenuItem>{
         return if(menu != null){
-            menu!!.children.toMutableList()
+            menu!!.children.filter { it.isVisible }.toMutableList()
         }
         else
             mutableListOf()
