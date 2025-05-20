@@ -260,7 +260,11 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
 
     private fun hideMenu(){
         val widthToTranslateOut = MenuConfigurations.maxExpandWidth
-        motionLayout.getConstraintSet(R.id.end).setTranslationX(navLayout.id, -widthToTranslateOut.toFloat())
+//        motionLayout.getConstraintSet(R.id.end).setTranslationX(navLayout.id, -widthToTranslateOut.toFloat())
+        val isRTL = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+        val translation = if (isRTL) widthToTranslateOut.toFloat() else -widthToTranslateOut.toFloat()
+        motionLayout.getConstraintSet(R.id.end).setTranslationX(navLayout.id, translation)
+
         motionLayout.transitionToEnd()
 
         if(::mainLayout.isInitialized){
@@ -269,7 +273,6 @@ class CustomNavigationView @JvmOverloads constructor(context: Context, attrs: At
                 startToEnd = ConstraintLayout.LayoutParams.UNSET
             }
         }
-
     }
 
     private fun showMenu(){
